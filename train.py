@@ -20,6 +20,7 @@ import utils.losses as losses
 import numpy as np
 import argparse
 import os
+import pickle
 
 if __name__ == '__main__' :        
     parser = argparse.ArgumentParser(description = "Train a simple mnist model")
@@ -106,6 +107,9 @@ if __name__ == '__main__' :
                         validation_data=val_dataset,
                         validation_steps = configuration.get_validation_steps(),
                         callbacks=[model_checkpoint_callback])
+        
+        with open('resnet.pkl', 'wb') as f:
+            pickle.dump(history.history, f)
                 
     elif pargs.mode == 'test' :
         model.evaluate(val_dataset,
